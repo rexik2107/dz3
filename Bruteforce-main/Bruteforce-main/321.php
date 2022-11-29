@@ -10,8 +10,13 @@ if( isset( $_GET[ 'Login' ] ) ) {
 	$pass = md5( $pass ); 
 
 	// CWE-116: необходимо экранировать входные данные
+	// CWE-307: неправильное огранечение чрезмерных попыток аутентификации
+	// необходимо ограничить количесто запросов 
 	$query  = "SELECT * FROM `users` WHERE user = '$user' AND password = '$pass';"; 
 
+	
+	// CWE-307: неправильное огранечение чрезмерных попыток аутентификации
+	// необходимо ограничить количесто запросов
 	$result = mysqli_query($GLOBALS["___mysqli_ston"],  $query ) or die( '<pre>' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . '</pre>' );
 	#CWE-799 Неправильный контроль частоты взаимодействия
 	//необходимо ограничить многократные запросы для предотвращения DOS-атак, например использовать sleep
