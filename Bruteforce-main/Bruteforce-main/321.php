@@ -1,7 +1,5 @@
 <?php
 if( isset( $_GET[ 'Login' ] ) ) {
-	// CWE-116: необходимо экранировать входные данные
-	// Неправильная проверка ввода
 	$user = $_GET[ 'username' ];
 	$pass = $_GET[ 'password' ];
 
